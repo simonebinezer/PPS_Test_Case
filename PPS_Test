@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 
 # Initialize the WebDriver
-driver = webdriver.Chrome(executable_path='path/to/chromedriver')
+driver = webdriver.Chrome(executable_path='C:\Users\DHPL023\OneDrive\Desktop\simonebinezer - Chrome.lnk')
 
 # Define the URL of the website
 url = "http://cxanalytix.in/pps/public/"
