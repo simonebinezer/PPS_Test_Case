@@ -5,88 +5,69 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-# Initialize the WebDriver
-driver = webdriver.Chrome(executable_path='C:\Users\DHPL023\OneDrive\Desktop\simonebinezer - Chrome.lnk')
+def test_large_website():
+    driver = webdriver.Chrome(executable_path='/path/to/chromedriver')
+    url = "http://cxanalytix.in/pps/public/"
+    driver.get(url)
+    driver.maximize_window()
 
-# Define the URL of the website
-url = "http://cxanalytix.in/pps/public/"
+    email = "simonebinezer@differenthair.com"
+    password = "salomijames"
 
-# Open the website
-driver.get(url)
+    try:
+        email_field = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "simonebinezer@differenthair.com"))
+        )
+        email_field.clear()
+        email_field.send_keys(email)
 
-# Maximize the browser window
-driver.maximize_window()
+        password_field = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "salomijames"))
+        )
+        password_field.clear()
+        password_field.send_keys(password)
 
-# Define the login credentials
-email = "simonebinezer@differenthair.com"
-password = "salomijames"
+        login_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.ID, "loginButton"))
+        )
+        login_button.click()
 
-try:
-    # Wait until the email field is present and input email
-    email_field = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "email"))
-    )
-    email_field.clear()
-    email_field.send_keys(email)
+        otp_field = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "otp"))
+        )
+        otp_field.clear()
+        otp_field.send_keys("123456")  # Replace with actual OTP
 
-    # Wait until the password field is present and input password
-    password_field = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "password"))
-    )
-    password_field.clear()
-    password_field.send_keys(password)
+        otp_submit_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.ID, "otpSubmitButton"))
+        )
+        otp_submit_button.click()
 
-    # Click the login button
-    login_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.ID, "loginButton"))
-    )
-    login_button.click()
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "homePageIdentifier"))
+        )
 
-    # Wait for the OTP field to appear, enter OTP (assuming OTP is received and entered manually for simplicity)
-    otp_field = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "otp"))
-    )
-    otp_field.clear()
-    otp_field.send_keys("123456")  # Replace with actual OTP
+        page1_link = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.LINK_TEXT, "Page 1"))
+        )
+        page1_link.click()
 
-    # Click the submit button for OTP
-    otp_submit_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.ID, "otpSubmitButton"))
-    )
-    otp_submit_button.click()
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "page1Identifier"))
+        )
 
-    # Wait until the home page is loaded
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "homePageIdentifier"))
-    )
+        page2_link = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.LINK_TEXT, "Page 2"))
+        )
+        page2_link.click()
 
-    # Example of navigating through multiple pages
-    # Page 1
-    page1_link = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.LINK_TEXT, "Page 1"))
-    )
-    page1_link.click()
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "page2Identifier"))
+        )
 
-    # Wait for Page 1 to load
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "page1Identifier"))
-    )
+    finally:
+        time.sleep(5)
+        driver.quit()
 
-    # Page 2
-    page2_link = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.LINK_TEXT, "Page 2"))
-    )
-    page2_link.click()
-
-    # Wait for Page 2 to load
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "page2Identifier"))
-    )
-
-    # Additional navigation and actions as needed
-    # ...
-
-finally:
-    # Close the browser after the test is done
-    time.sleep(5)  # Wait for a few seconds to observe the results
-    driver.quit()
+if __name__ == "__main__":
+    test_large_website()
